@@ -254,7 +254,10 @@ class EntriesController extends BaseController
             SproutForms::$app->entries->logEntriesSpam($entry);
         } else {
             $isNewEntry = !$entry->id;
-            SproutForms::$app->entries->callOnSaveEntryEvent($entry, $isNewEntry);
+
+            if (!$entry->hasCaptchaErrors()) {
+                SproutForms::$app->entries->callOnSaveEntryEvent($entry, $isNewEntry);
+            }
         }
 
         SproutForms::$app->entries->runPurgeSpamElements();
