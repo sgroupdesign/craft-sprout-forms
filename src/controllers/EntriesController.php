@@ -243,7 +243,15 @@ class EntriesController extends BaseController
 
         // If the entry has capture errors mark it as spam
         if ($entry->hasCaptchaErrors()) {
-            $entry->statusId = SproutForms::$app->entryStatuses->getSpamStatusId();
+            if (Craft::$app->getRequest()->getAcceptsJson()) {
+                return $this->asJson([
+                    'success' => false
+                ]);
+            }
+
+            Craft::$app->getSession()->setNotice(Craft::t('sprout-forms', 'Validation failed.'));
+
+            return $this->redirectToPostedUrl($entry);
         }
 
         // Check to see if we are going to save the entry to the database
