@@ -249,9 +249,9 @@ class EntriesController extends BaseController
                 ]);
             }
 
-            Craft::$app->getSession()->setNotice(Craft::t('sprout-forms', 'Validation failed.'));
+            Craft::$app->getSession()->setNotice(Craft::t('sprout-forms', 'reCAPTCHA validation failed.'));
 
-            return $this->redirectToPostedUrl($entry);
+            return $this->redirectWithValidationErrors($entry);
         }
 
         // Check to see if we are going to save the entry to the database
