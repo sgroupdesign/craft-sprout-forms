@@ -204,6 +204,8 @@ class EntriesDataSource extends DataSource
                     $value = Json::encode($field);
                 } else if (is_string($field) OR $field === null) {
                     $value = $field;
+                } else if (method_exists($field, '__toString')) {
+                    $value = $field->__toString();
                 } else {
                     $value = Craft::t('sprout-forms', 'Unsupported Field');
                 }
